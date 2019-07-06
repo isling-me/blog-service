@@ -1,0 +1,167 @@
+type Query {
+  me: Me
+  user(id: ID!): User
+  posts(page: PageInput!, orderBy: PostOrderByInput): PostsResult!
+  post(id: ID!): Post
+}
+
+type Mutation {
+  signup(email: String!, password: String!, name: String!): AuthPayload
+  login(email: String!, password: String!): AuthPayload
+  createPost(data: PostCreateInput!): Post
+  updatePost(id: ID!, data: PostUpdateInput!): Post
+  #    deleteLink(id:ID!): DeleteResponse
+  #    upvote(linkId: ID!): Vote
+  #    downvote(linkId: ID!): DeleteResponse
+}
+
+#type Subscription {
+#    newLink: Link
+#    newVote: Vote
+#}
+
+scalar DateTime
+
+input PageInput {
+  skip: Int
+  first: Int!
+  last: Int
+}
+
+interface PageResult {
+  total: Int!
+}
+
+type AuthPayload {
+  token: String
+  user: User
+}
+
+type User {
+  id: ID!
+  email: String!
+  profile: Profile!
+  posts(page: PageInput!, orderBy: PostOrderByInput): PostsResult!
+}
+
+type Profile {
+  id: ID!
+  name: String!
+  avatar: String
+}
+
+type Me {
+  id: ID!
+  email: String!
+  role: Role!
+  profile: MyProfile!
+  posts(
+    page: PageInput!
+    state: PostState
+    orderBy: PostOrderByInput
+  ): PostsResult!
+  votes: [Vote!]!
+  comments: [Comment!]!
+}
+
+type MyProfile {
+  id: ID!
+  name: String!
+  avatar: String
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+input PostContentInput {
+  text: String!
+}
+
+input PostCreateInput {
+  title: String!
+  description: String
+  content: PostContentInput!
+  state: PostState
+  publishedDate: DateTime
+  topics: [ID!]
+}
+
+input PostUpdateInput {
+  title: String
+  description: String
+  content: PostContentInput
+  state: PostState
+  publishedDate: DateTime
+  topics: [ID!]
+}
+
+type Post {
+  id: ID!
+  title: String!
+  description: String
+  content: PostContent!
+  state: PostState!
+  publishedDate: DateTime
+  author: User
+  topics: [Topic!]!
+  comments: [Comment!]!
+  votes: [Vote!]!
+  totalVotes: Int!
+  createdAt: DateTime!
+}
+
+type PostContent {
+  id: ID!
+  post: Post!
+  text: String!
+}
+
+enum PostState {
+  DRAFT
+  PUBLISHED
+  ARCHIVE
+}
+
+type Topic {
+  id: ID!
+  name: String!
+  posts: [Post!]!
+}
+
+type PostsResult implements PageResult {
+  items: [Post!]!
+  total: Int!
+  hasNext: Boolean!
+}
+
+enum PostOrderByInput {
+  title_ASC
+  title_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type Vote {
+  id: ID!
+  user: User!
+  post: Post!
+}
+
+type Comment {
+  id: ID!
+  text: String!
+  post: Post!
+  author: User!
+}
+
+enum ResponseStatus {
+  SUCCESS
+  FAILED
+}
+
+interface Response {
+  message: String
+  status: ResponseStatus!
+}

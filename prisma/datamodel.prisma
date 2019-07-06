@@ -1,0 +1,69 @@
+type User {
+  id: ID! @id
+  email: String! @unique
+  password: String!
+  role: Role! @default(value: USER)
+  profile: Profile! @relation(link: INLINE, onDelete: "CASCADE")
+  posts: [Post!]! @relation(name: "WrittenPosts", onDelete: "CASCADE")
+  votes: [Vote!]! @relation(name: "VotedPosts", onDelete: "CASCADE")
+  comments: [Comment!]! @relation(name: "CommentedPosts", onDelete: "CASCADE")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+type Profile {
+  id: ID! @id
+  user: User!
+  name: String!
+  avatar: String
+}
+
+type Topic {
+  id: ID! @id
+  name: String!
+  posts: [Post!]!
+}
+
+enum PostState {
+  DRAFT
+  PUBLISHED
+  ARCHIVE
+}
+
+type Post {
+  id: ID! @id
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+  title: String!
+  description: String
+  content: PostContent! @relation(link: INLINE, onDelete: "CASCADE")
+  state: PostState! @default(value: DRAFT)
+  publishedDate: DateTime
+  author: User!  @relation(name: "WrittenPosts")
+  topics: [Topic!]!
+  comments: [Comment!]! @relation(name: "CommentedUsers", onDelete: "CASCADE")
+  votes: [Vote!]! @relation(name: "VotedUsers", onDelete: "CASCADE")
+}
+
+type PostContent {
+  id: ID! @id
+  post: Post!
+  text: String!
+}
+
+type Vote {
+  id: ID! @id
+  post: Post! @relation(name: "VotedUsers")
+  User: User! @relation(name: "VotedPosts")
+}
+
+type Comment {
+  id: ID! @id
+  createdAt: DateTime! @createdAt
+  text: String!
+  post: Post! @relation(name: "CommentedUsers")
+  author: User! @relation(name: "CommentedPosts")
+}
