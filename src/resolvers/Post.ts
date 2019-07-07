@@ -4,7 +4,9 @@ const author = (parent, args, context) => {
 const content = (parent, args, context) => {
   return context.prisma.post({ id: parent.id }).content();
 };
-const topics = () => [];
+const topic = (parent, args, context) => {
+  return context.prisma.post({ id: parent.id }).topic();
+};
 const publishedDate = parent => {
   if (parent.state === 'PUBLISHED') {
     return parent.publishedDate;
@@ -16,6 +18,6 @@ const publishedDate = parent => {
 export default {
   author,
   content,
-  topics,
+  topic,
   publishedDate
 };

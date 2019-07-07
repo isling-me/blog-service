@@ -1,6 +1,7 @@
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import { AuthenticationError, ForbiddenError } from 'apollo-server-errors';
+import slugify from 'slugify';
 
 import { APP_SECRET, Logger, AuthPayloadInterface, jwtOptions } from '../utils';
 
@@ -79,6 +80,12 @@ interface ConnectInterface {
   };
 }
 
+function slugifyLower(string: string): string {
+  return slugify(string, {
+    lower: true
+  });
+}
+
 function createPost(_parent, args, context) {
   if (!context.user.auth) {
     logger.debug('[createPost] require login');
@@ -86,26 +93,23 @@ function createPost(_parent, args, context) {
   }
 
   const userId = context.user.id;
-  const { title, description, content, state, topics } = args.data;
+  const { title, description, content, state, topic } = args.data;
   let { publishedDate } = args.data;
 
-  const topicConnects: ConnectInterface[] = topics
-    ? topics.map((topicId: string) => {
-        connect: {
-          id: topicId;
-        }
-      })
-    : [];
+  const topicConnect: ConnectInterface | {} = topic
+    ? { connect: { id: topic } }
+    : {};
 
-  if (state && state === 'PUBLISHED') {
+  if (!state || state === 'PUBLISHED') {
     if (!publishedDate || new Date(publishedDate).getTime() < Date.now()) {
       publishedDate = new Date().toISOString();
     }
   }
 
   return context.prisma.createPost({
-    title,
-    description,
+    title: title.trim(),
+    slug: slugifyLower(title),
+    description: description.trim(),
     content: {
       create: {
         text: content.text
@@ -114,9 +118,7 @@ function createPost(_parent, args, context) {
     state,
     publishedDate,
     author: { connect: { id: userId } },
-    topics: {
-      connect: topicConnects
-    }
+    topic: topicConnect
   });
 }
 
@@ -141,32 +143,33 @@ async function updatePost(_parent, args, context) {
     throw new AuthenticationError('unauthorized');
   }
 
-  const { title, description, content, state, topics } = args.data;
+  const { title, description, content, state, topic } = args.data;
   let { publishedDate } = args.data;
 
-  const topicConnects: ConnectInterface[] = topics
-    ? topics.map((topicId: string) => {
-        connect: {
-          id: topicId;
-        }
-      })
-    : [];
+  const topicConnect: ConnectInterface | {} = topic
+    ? { connect: { id: topic } }
+    : {};
 
   if (state === 'PUBLISHED') {
-    if (!publishedDate || new Date(publishedDate).getTime() < Date.now()) {
+    if (publishedDate) {
+      if (new Date(publishedDate).getTime() < Date.now()) {
+        publishedDate = new Date().toISOString();
+      }
+    } else if (!post.publishedDate) {
       publishedDate = new Date().toISOString();
     }
+  } else if (publishedDate) {
+    publishedDate = undefined;
   }
 
   const data = {
-    title,
-    description,
+    title: title.trim(),
+    slug: slugifyLower(title),
+    description: description.trim(),
     state,
     content: {},
     publishedDate,
-    topics: {
-      connect: topicConnects
-    }
+    topic: topicConnect
   };
 
   if (content) {

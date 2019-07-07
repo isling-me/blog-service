@@ -1,6 +1,7 @@
 type User {
   id: ID! @id
   email: String! @unique
+  username: String @unique
   password: String!
   role: Role! @default(value: USER)
   profile: Profile! @relation(link: INLINE, onDelete: "CASCADE")
@@ -24,6 +25,7 @@ type Profile {
 type Topic {
   id: ID! @id
   name: String!
+  slug: String! @unique
   posts: [Post!]!
 }
 
@@ -38,12 +40,14 @@ type Post {
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
   title: String!
+  slug: String!
   description: String
+  readingTime: Int! @default(value: 15)
   content: PostContent! @relation(link: INLINE, onDelete: "CASCADE")
   state: PostState! @default(value: DRAFT)
   publishedDate: DateTime
   author: User!  @relation(name: "WrittenPosts")
-  topics: [Topic!]!
+  topic: Topic!
   comments: [Comment!]! @relation(name: "CommentedUsers", onDelete: "CASCADE")
   votes: [Vote!]! @relation(name: "VotedUsers", onDelete: "CASCADE")
 }
