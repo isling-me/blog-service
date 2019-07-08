@@ -1,4 +1,5 @@
 import * as jwt from 'jsonwebtoken';
+import slugify from 'slugify';
 
 export const APP_SECRET = 'secretvl@#/4';
 
@@ -88,4 +89,22 @@ export function getCurrentUser(request: any): CurrentUserInterface {
       return Reflect.get(target, p);
     }
   });
+}
+
+export function trimAllowUndefined(
+  string: string | undefined | null
+): string | undefined {
+  if (typeof string === 'string') {
+    return string.trim();
+  }
+  return undefined;
+}
+
+export function slugifyLower(string: string | undefined): string | undefined {
+  if (typeof string === 'string') {
+    return slugify(string, {
+      lower: true
+    });
+  }
+  return undefined;
 }

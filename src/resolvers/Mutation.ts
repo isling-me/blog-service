@@ -1,9 +1,15 @@
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import { AuthenticationError, ForbiddenError } from 'apollo-server-errors';
-import slugify from 'slugify';
 
-import { APP_SECRET, Logger, AuthPayloadInterface, jwtOptions } from '../utils';
+import {
+  APP_SECRET,
+  Logger,
+  AuthPayloadInterface,
+  jwtOptions,
+  trimAllowUndefined,
+  slugifyLower
+} from '../utils';
 
 const logger = new Logger('Mutation');
 
@@ -80,12 +86,6 @@ interface ConnectInterface {
   };
 }
 
-function slugifyLower(string: string): string {
-  return slugify(string, {
-    lower: true
-  });
-}
-
 function createPost(_parent, args, context) {
   if (!context.user.auth) {
     logger.debug('[createPost] require login');
@@ -107,9 +107,9 @@ function createPost(_parent, args, context) {
   }
 
   return context.prisma.createPost({
-    title: title.trim(),
+    title: trimAllowUndefined(title),
     slug: slugifyLower(title),
-    description: description.trim(),
+    description: trimAllowUndefined(description),
     content: {
       create: {
         text: content.text
@@ -163,9 +163,9 @@ async function updatePost(_parent, args, context) {
   }
 
   const data = {
-    title: title.trim(),
+    title: trimAllowUndefined(title),
     slug: slugifyLower(title),
-    description: description.trim(),
+    description: trimAllowUndefined(description),
     state,
     content: {},
     publishedDate,
