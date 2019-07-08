@@ -1,4 +1,4 @@
-const me = (parent, args, context) => {
+function me(parent, args, context) {
   if (!context.user.auth) {
     return null;
   }
@@ -6,9 +6,9 @@ const me = (parent, args, context) => {
   const userId = context.user.id;
 
   return context.prisma.user({ id: userId });
-};
+}
 
-const user = (parent, args, context) => {
+function user(parent, args, context) {
   if (!context.user.auth) {
     return null;
   }
@@ -16,7 +16,7 @@ const user = (parent, args, context) => {
   const userId = args.id;
 
   return context.prisma.user({ id: userId });
-};
+}
 
 //   const where = args.filter ? {
 //     OR: [
@@ -64,9 +64,43 @@ async function post(_parent, args, context) {
   return post;
 }
 
+async function topics(_parent, args, context) {
+  const where = args.filter
+    ? {
+        name_contains: args.filter
+      }
+    : {};
+  const page = args.page || {};
+  const orderBy = args.orderBy;
+
+  const items = await context.prisma.topics({
+    where,
+    ...page,
+    orderBy
+  });
+
+  const total = await context.prisma
+    .topicsConnection({
+      where
+    })
+    .aggregate()
+    .count();
+
+  return {
+    items,
+    total
+  };
+}
+
+async function topic(parent, args, context) {
+  return context.prisma.topic({ id: args.id });
+}
+
 export default {
   me,
   user,
   posts,
-  post
+  post,
+  topics,
+  topic
 };

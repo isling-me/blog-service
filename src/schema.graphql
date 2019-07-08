@@ -3,6 +3,12 @@ type Query {
   user(id: ID!): User
   posts(page: PageInput!, orderBy: PostOrderByInput): PostsResult!
   post(id: ID!): Post
+  topics(
+    filter: String
+    orderBy: TopicOrderByInput
+    page: PageInput
+  ): TopicsResult!
+  topic(id: ID!): Topic
 }
 
 type Mutation {
@@ -132,6 +138,16 @@ type Topic {
   name: String!
   slug: String!
   posts: [Post!]!
+}
+
+type TopicsResult implements PageResult {
+  items: [Topic!]!
+  total: Int!
+}
+
+enum TopicOrderByInput {
+  name_ASC
+  name_DESC
 }
 
 type PostsResult implements PageResult {

@@ -8,6 +8,7 @@ import PageResult from './PageResult';
 import Response from './Response';
 import Post from './Post';
 import PostContent from './PostContent';
+import Topic from './Topic';
 
 export default {
   Query,
@@ -19,5 +20,6 @@ export default {
   PageResult,
   Response,
   Post,
-  PostContent
+  PostContent,
+  Topic
 };
