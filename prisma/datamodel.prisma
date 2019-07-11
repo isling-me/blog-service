@@ -39,7 +39,7 @@ type Post {
   id: ID! @id
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
-  title: String!
+  title: String
   slug: String!
   description: String
   readingTime: Int! @default(value: 15)
@@ -47,7 +47,7 @@ type Post {
   state: PostState! @default(value: DRAFT)
   publishedDate: DateTime
   author: User!  @relation(name: "WrittenPosts")
-  topic: Topic!
+  topic: Topic
   comments: [Comment!]! @relation(name: "CommentedUsers", onDelete: "CASCADE")
   votes: [Vote!]! @relation(name: "VotedUsers", onDelete: "CASCADE")
 }
@@ -55,7 +55,7 @@ type Post {
 type PostContent {
   id: ID! @id
   post: Post!
-  text: String!
+  text: String
 }
 
 type Vote {

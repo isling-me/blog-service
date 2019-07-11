@@ -64,6 +64,14 @@ async function post(_parent, args, context) {
   return post;
 }
 
+async function ownPost(_parent, args, context) {
+  const post = await context.prisma.post({
+    id: args.id
+  });
+
+  return post;
+}
+
 async function topics(_parent, args, context) {
   const where = args.filter
     ? {
@@ -101,6 +109,7 @@ export default {
   user,
   posts,
   post,
+  ownPost,
   topics,
   topic
 };

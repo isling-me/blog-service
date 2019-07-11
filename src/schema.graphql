@@ -3,6 +3,7 @@ type Query {
   user(id: ID!): User
   posts(page: PageInput!, orderBy: PostOrderByInput): PostsResult!
   post(id: ID!): Post
+  ownPost(id: ID!): Post
   topics(
     filter: String
     orderBy: TopicOrderByInput
@@ -84,16 +85,16 @@ enum Role {
 }
 
 input PostContentInput {
-  text: String!
+  text: String
 }
 
 input PostCreateInput {
-  title: String!
+  title: String
   description: String
-  content: PostContentInput!
+  content: PostContentInput
   state: PostState
   publishedDate: DateTime
-  topic: ID!
+  topic: ID
 }
 
 input PostUpdateInput {
@@ -107,7 +108,7 @@ input PostUpdateInput {
 
 type Post {
   id: ID!
-  title: String!
+  title: String
   slug: String!
   description: String
   content: PostContent!
@@ -115,7 +116,7 @@ type Post {
   publishedDate: DateTime
   readingTime: DateTime!
   author: User
-  topic: Topic!
+  topic: Topic
   comments: [Comment!]!
   votes: [Vote!]!
   totalVotes: Int!
@@ -125,7 +126,7 @@ type Post {
 type PostContent {
   id: ID!
   post: Post!
-  text: String!
+  text: String
 }
 
 enum PostState {
