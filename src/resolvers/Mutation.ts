@@ -87,12 +87,12 @@ interface ConnectInterface {
 }
 
 function createPost(_parent, args, context) {
-  // if (!context.user.auth) {
-  //   logger.debug('[createPost] require login');
-  //   throw new AuthenticationError('unauthorized');
-  // }
+  if (!context.user.auth) {
+    logger.debug('[createPost] require login');
+    throw new AuthenticationError('unauthorized');
+  }
 
-  const userId = 'cjxixiks8opkf0b12guntdpvd' || context.user.id;
+  const userId = context.user.id;
   const { title, description, content, state, topic } = args.data;
   let { publishedDate } = args.data;
 
@@ -123,13 +123,14 @@ function createPost(_parent, args, context) {
 }
 
 async function updatePost(_parent, args, context) {
-  // if (!context.user.auth) {
-  //   logger.debug('[createPost] require login');
-  //   throw new AuthenticationError('unauthorized');
-  // }
+  if (!context.user.auth) {
+    logger.debug('[updatePost] require login');
+    throw new AuthenticationError('unauthorized');
+  }
 
-  const userId = 'cjxixiks8opkf0b12guntdpvd' || context.user.id;
+  const userId = context.user.id;
   const postId = args.id;
+  logger.info(`[updatePost] Update post ${postId}`);
 
   const post = await context.prisma.post({ id: postId });
 

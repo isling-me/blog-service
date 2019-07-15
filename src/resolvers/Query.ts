@@ -1,6 +1,8 @@
+import { AuthenticationError, ForbiddenError } from 'apollo-server-errors';
+
 function me(parent, args, context) {
   if (!context.user.auth) {
-    return null;
+    throw new AuthenticationError('unauthorized');
   }
 
   const userId = context.user.id;
@@ -10,7 +12,7 @@ function me(parent, args, context) {
 
 function user(parent, args, context) {
   if (!context.user.auth) {
-    return null;
+    throw new AuthenticationError('unauthorized');
   }
 
   const userId = args.id;
@@ -58,7 +60,7 @@ async function post(_parent, args, context) {
   });
 
   if (post.state !== 'PUBLISHED') {
-    return null;
+    throw new ForbiddenError('resource_not_found');
   }
 
   return post;
