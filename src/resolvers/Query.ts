@@ -106,6 +106,25 @@ async function topic(parent, args, context) {
   return context.prisma.topic({ id: args.id });
 }
 
+async function popularPosts(parent, args, context) {
+  const total = await context.prisma
+    .postsConnection({ where: { state: 'PUBLISHED' } })
+    .aggregate()
+    .count();
+
+  const max = total - args.first > 0 ? total - args.first : 0;
+  const randomSkip = Math.floor(Math.random() * max);
+
+  return context.prisma.posts({
+    where: {
+      state: 'PUBLISHED'
+    },
+    orderBy: randomSkip % 2 === 0 ? 'publishedDate_DESC' : 'updatedAt_DESC',
+    first: args.first,
+    skip: randomSkip
+  });
+}
+
 export default {
   me,
   user,
@@ -113,5 +132,6 @@ export default {
   post,
   ownPost,
   topics,
-  topic
+  topic,
+  popularPosts
 };

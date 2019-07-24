@@ -354,6 +354,8 @@ export type PostOrderByInput =
   | "slug_DESC"
   | "description_ASC"
   | "description_DESC"
+  | "preview_ASC"
+  | "preview_DESC"
   | "readingTime_ASC"
   | "readingTime_DESC"
   | "state_ASC"
@@ -492,6 +494,20 @@ export interface PostWhereInput {
   description_not_starts_with?: Maybe<String>;
   description_ends_with?: Maybe<String>;
   description_not_ends_with?: Maybe<String>;
+  preview?: Maybe<String>;
+  preview_not?: Maybe<String>;
+  preview_in?: Maybe<String[] | String>;
+  preview_not_in?: Maybe<String[] | String>;
+  preview_lt?: Maybe<String>;
+  preview_lte?: Maybe<String>;
+  preview_gt?: Maybe<String>;
+  preview_gte?: Maybe<String>;
+  preview_contains?: Maybe<String>;
+  preview_not_contains?: Maybe<String>;
+  preview_starts_with?: Maybe<String>;
+  preview_not_starts_with?: Maybe<String>;
+  preview_ends_with?: Maybe<String>;
+  preview_not_ends_with?: Maybe<String>;
   readingTime?: Maybe<Int>;
   readingTime_not?: Maybe<Int>;
   readingTime_in?: Maybe<Int[] | Int>;
@@ -720,6 +736,7 @@ export interface PostCreateWithoutContentInput {
   title?: Maybe<String>;
   slug: String;
   description?: Maybe<String>;
+  preview?: Maybe<String>;
   readingTime?: Maybe<Int>;
   state?: Maybe<PostState>;
   publishedDate?: Maybe<DateTimeInput>;
@@ -781,6 +798,7 @@ export interface PostUpdateWithoutCommentsDataInput {
   title?: Maybe<String>;
   slug?: Maybe<String>;
   description?: Maybe<String>;
+  preview?: Maybe<String>;
   readingTime?: Maybe<Int>;
   content?: Maybe<PostContentUpdateOneRequiredWithoutPostInput>;
   state?: Maybe<PostState>;
@@ -877,6 +895,7 @@ export interface PostUpdateWithoutTopicDataInput {
   title?: Maybe<String>;
   slug?: Maybe<String>;
   description?: Maybe<String>;
+  preview?: Maybe<String>;
   readingTime?: Maybe<Int>;
   content?: Maybe<PostContentUpdateOneRequiredWithoutPostInput>;
   state?: Maybe<PostState>;
@@ -979,6 +998,7 @@ export interface PostUpdateWithoutVotesDataInput {
   title?: Maybe<String>;
   slug?: Maybe<String>;
   description?: Maybe<String>;
+  preview?: Maybe<String>;
   readingTime?: Maybe<Int>;
   content?: Maybe<PostContentUpdateOneRequiredWithoutPostInput>;
   state?: Maybe<PostState>;
@@ -1173,6 +1193,7 @@ export interface PostUpdateWithoutContentDataInput {
   title?: Maybe<String>;
   slug?: Maybe<String>;
   description?: Maybe<String>;
+  preview?: Maybe<String>;
   readingTime?: Maybe<Int>;
   state?: Maybe<PostState>;
   publishedDate?: Maybe<DateTimeInput>;
@@ -1243,6 +1264,7 @@ export interface PostUpdateWithoutAuthorDataInput {
   title?: Maybe<String>;
   slug?: Maybe<String>;
   description?: Maybe<String>;
+  preview?: Maybe<String>;
   readingTime?: Maybe<Int>;
   content?: Maybe<PostContentUpdateOneRequiredWithoutPostInput>;
   state?: Maybe<PostState>;
@@ -1536,6 +1558,7 @@ export interface PostCreateWithoutVotesInput {
   title?: Maybe<String>;
   slug: String;
   description?: Maybe<String>;
+  preview?: Maybe<String>;
   readingTime?: Maybe<Int>;
   content: PostContentCreateOneWithoutPostInput;
   state?: Maybe<PostState>;
@@ -1630,6 +1653,20 @@ export interface PostScalarWhereInput {
   description_not_starts_with?: Maybe<String>;
   description_ends_with?: Maybe<String>;
   description_not_ends_with?: Maybe<String>;
+  preview?: Maybe<String>;
+  preview_not?: Maybe<String>;
+  preview_in?: Maybe<String[] | String>;
+  preview_not_in?: Maybe<String[] | String>;
+  preview_lt?: Maybe<String>;
+  preview_lte?: Maybe<String>;
+  preview_gt?: Maybe<String>;
+  preview_gte?: Maybe<String>;
+  preview_contains?: Maybe<String>;
+  preview_not_contains?: Maybe<String>;
+  preview_starts_with?: Maybe<String>;
+  preview_not_starts_with?: Maybe<String>;
+  preview_ends_with?: Maybe<String>;
+  preview_not_ends_with?: Maybe<String>;
   readingTime?: Maybe<Int>;
   readingTime_not?: Maybe<Int>;
   readingTime_in?: Maybe<Int[] | Int>;
@@ -1660,6 +1697,7 @@ export interface PostCreateWithoutAuthorInput {
   title?: Maybe<String>;
   slug: String;
   description?: Maybe<String>;
+  preview?: Maybe<String>;
   readingTime?: Maybe<Int>;
   content: PostContentCreateOneWithoutPostInput;
   state?: Maybe<PostState>;
@@ -1689,6 +1727,7 @@ export interface PostUpdateManyDataInput {
   title?: Maybe<String>;
   slug?: Maybe<String>;
   description?: Maybe<String>;
+  preview?: Maybe<String>;
   readingTime?: Maybe<Int>;
   state?: Maybe<PostState>;
   publishedDate?: Maybe<DateTimeInput>;
@@ -1726,6 +1765,7 @@ export interface PostCreateWithoutTopicInput {
   title?: Maybe<String>;
   slug: String;
   description?: Maybe<String>;
+  preview?: Maybe<String>;
   readingTime?: Maybe<Int>;
   content: PostContentCreateOneWithoutPostInput;
   state?: Maybe<PostState>;
@@ -1757,6 +1797,7 @@ export interface PostCreateWithoutCommentsInput {
   title?: Maybe<String>;
   slug: String;
   description?: Maybe<String>;
+  preview?: Maybe<String>;
   readingTime?: Maybe<Int>;
   content: PostContentCreateOneWithoutPostInput;
   state?: Maybe<PostState>;
@@ -1836,6 +1877,7 @@ export interface PostCreateInput {
   title?: Maybe<String>;
   slug: String;
   description?: Maybe<String>;
+  preview?: Maybe<String>;
   readingTime?: Maybe<Int>;
   content: PostContentCreateOneWithoutPostInput;
   state?: Maybe<PostState>;
@@ -1867,6 +1909,7 @@ export interface PostUpdateManyMutationInput {
   title?: Maybe<String>;
   slug?: Maybe<String>;
   description?: Maybe<String>;
+  preview?: Maybe<String>;
   readingTime?: Maybe<Int>;
   state?: Maybe<PostState>;
   publishedDate?: Maybe<DateTimeInput>;
@@ -1876,6 +1919,7 @@ export interface PostUpdateInput {
   title?: Maybe<String>;
   slug?: Maybe<String>;
   description?: Maybe<String>;
+  preview?: Maybe<String>;
   readingTime?: Maybe<Int>;
   content?: Maybe<PostContentUpdateOneRequiredWithoutPostInput>;
   state?: Maybe<PostState>;
@@ -2523,6 +2567,7 @@ export interface Post {
   title?: String;
   slug: String;
   description?: String;
+  preview?: String;
   readingTime: Int;
   state: PostState;
   publishedDate?: DateTimeOutput;
@@ -2535,6 +2580,7 @@ export interface PostPromise extends Promise<Post>, Fragmentable {
   title: () => Promise<String>;
   slug: () => Promise<String>;
   description: () => Promise<String>;
+  preview: () => Promise<String>;
   readingTime: () => Promise<Int>;
   content: <T = PostContentPromise>() => T;
   state: () => Promise<PostState>;
@@ -2570,6 +2616,7 @@ export interface PostSubscription
   title: () => Promise<AsyncIterator<String>>;
   slug: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
+  preview: () => Promise<AsyncIterator<String>>;
   readingTime: () => Promise<AsyncIterator<Int>>;
   content: <T = PostContentSubscription>() => T;
   state: () => Promise<AsyncIterator<PostState>>;
@@ -2605,6 +2652,7 @@ export interface PostNullablePromise
   title: () => Promise<String>;
   slug: () => Promise<String>;
   description: () => Promise<String>;
+  preview: () => Promise<String>;
   readingTime: () => Promise<Int>;
   content: <T = PostContentPromise>() => T;
   state: () => Promise<PostState>;
@@ -2638,6 +2686,7 @@ export interface PostPreviousValues {
   title?: String;
   slug: String;
   description?: String;
+  preview?: String;
   readingTime: Int;
   state: PostState;
   publishedDate?: DateTimeOutput;
@@ -2652,6 +2701,7 @@ export interface PostPreviousValuesPromise
   title: () => Promise<String>;
   slug: () => Promise<String>;
   description: () => Promise<String>;
+  preview: () => Promise<String>;
   readingTime: () => Promise<Int>;
   state: () => Promise<PostState>;
   publishedDate: () => Promise<DateTimeOutput>;
@@ -2666,6 +2716,7 @@ export interface PostPreviousValuesSubscription
   title: () => Promise<AsyncIterator<String>>;
   slug: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
+  preview: () => Promise<AsyncIterator<String>>;
   readingTime: () => Promise<AsyncIterator<Int>>;
   state: () => Promise<AsyncIterator<PostState>>;
   publishedDate: () => Promise<AsyncIterator<DateTimeOutput>>;

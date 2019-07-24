@@ -353,6 +353,7 @@ type Post {
   title: String
   slug: String!
   description: String
+  preview: String
   readingTime: Int!
   content: PostContent!
   state: PostState!
@@ -501,6 +502,7 @@ input PostCreateInput {
   title: String
   slug: String!
   description: String
+  preview: String
   readingTime: Int
   content: PostContentCreateOneWithoutPostInput!
   state: PostState
@@ -541,6 +543,7 @@ input PostCreateWithoutAuthorInput {
   title: String
   slug: String!
   description: String
+  preview: String
   readingTime: Int
   content: PostContentCreateOneWithoutPostInput!
   state: PostState
@@ -555,6 +558,7 @@ input PostCreateWithoutCommentsInput {
   title: String
   slug: String!
   description: String
+  preview: String
   readingTime: Int
   content: PostContentCreateOneWithoutPostInput!
   state: PostState
@@ -569,6 +573,7 @@ input PostCreateWithoutContentInput {
   title: String
   slug: String!
   description: String
+  preview: String
   readingTime: Int
   state: PostState
   publishedDate: DateTime
@@ -583,6 +588,7 @@ input PostCreateWithoutTopicInput {
   title: String
   slug: String!
   description: String
+  preview: String
   readingTime: Int
   content: PostContentCreateOneWithoutPostInput!
   state: PostState
@@ -597,6 +603,7 @@ input PostCreateWithoutVotesInput {
   title: String
   slug: String!
   description: String
+  preview: String
   readingTime: Int
   content: PostContentCreateOneWithoutPostInput!
   state: PostState
@@ -624,6 +631,8 @@ enum PostOrderByInput {
   slug_DESC
   description_ASC
   description_DESC
+  preview_ASC
+  preview_DESC
   readingTime_ASC
   readingTime_DESC
   state_ASC
@@ -639,6 +648,7 @@ type PostPreviousValues {
   title: String
   slug: String!
   description: String
+  preview: String
   readingTime: Int!
   state: PostState!
   publishedDate: DateTime
@@ -717,6 +727,20 @@ input PostScalarWhereInput {
   description_not_starts_with: String
   description_ends_with: String
   description_not_ends_with: String
+  preview: String
+  preview_not: String
+  preview_in: [String!]
+  preview_not_in: [String!]
+  preview_lt: String
+  preview_lte: String
+  preview_gt: String
+  preview_gte: String
+  preview_contains: String
+  preview_not_contains: String
+  preview_starts_with: String
+  preview_not_starts_with: String
+  preview_ends_with: String
+  preview_not_ends_with: String
   readingTime: Int
   readingTime_not: Int
   readingTime_in: [Int!]
@@ -770,6 +794,7 @@ input PostUpdateInput {
   title: String
   slug: String
   description: String
+  preview: String
   readingTime: Int
   content: PostContentUpdateOneRequiredWithoutPostInput
   state: PostState
@@ -784,6 +809,7 @@ input PostUpdateManyDataInput {
   title: String
   slug: String
   description: String
+  preview: String
   readingTime: Int
   state: PostState
   publishedDate: DateTime
@@ -793,6 +819,7 @@ input PostUpdateManyMutationInput {
   title: String
   slug: String
   description: String
+  preview: String
   readingTime: Int
   state: PostState
   publishedDate: DateTime
@@ -852,6 +879,7 @@ input PostUpdateWithoutAuthorDataInput {
   title: String
   slug: String
   description: String
+  preview: String
   readingTime: Int
   content: PostContentUpdateOneRequiredWithoutPostInput
   state: PostState
@@ -865,6 +893,7 @@ input PostUpdateWithoutCommentsDataInput {
   title: String
   slug: String
   description: String
+  preview: String
   readingTime: Int
   content: PostContentUpdateOneRequiredWithoutPostInput
   state: PostState
@@ -878,6 +907,7 @@ input PostUpdateWithoutContentDataInput {
   title: String
   slug: String
   description: String
+  preview: String
   readingTime: Int
   state: PostState
   publishedDate: DateTime
@@ -891,6 +921,7 @@ input PostUpdateWithoutTopicDataInput {
   title: String
   slug: String
   description: String
+  preview: String
   readingTime: Int
   content: PostContentUpdateOneRequiredWithoutPostInput
   state: PostState
@@ -904,6 +935,7 @@ input PostUpdateWithoutVotesDataInput {
   title: String
   slug: String
   description: String
+  preview: String
   readingTime: Int
   content: PostContentUpdateOneRequiredWithoutPostInput
   state: PostState
@@ -1023,6 +1055,20 @@ input PostWhereInput {
   description_not_starts_with: String
   description_ends_with: String
   description_not_ends_with: String
+  preview: String
+  preview_not: String
+  preview_in: [String!]
+  preview_not_in: [String!]
+  preview_lt: String
+  preview_lte: String
+  preview_gt: String
+  preview_gte: String
+  preview_contains: String
+  preview_not_contains: String
+  preview_starts_with: String
+  preview_not_starts_with: String
+  preview_ends_with: String
+  preview_not_ends_with: String
   readingTime: Int
   readingTime_not: Int
   readingTime_in: [Int!]

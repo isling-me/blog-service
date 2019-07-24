@@ -1,3 +1,6 @@
+scalar DateTime
+scalar Upload
+
 type Query {
   me: Me
   user(id: ID!): User
@@ -10,6 +13,7 @@ type Query {
     page: PageInput
   ): TopicsResult!
   topic(id: ID!): Topic
+  popularPosts(first: Int = 5): [Post!]!
 }
 
 type Mutation {
@@ -17,6 +21,8 @@ type Mutation {
   login(email: String!, password: String!): AuthPayload
   createPost(data: PostCreateInput!): Post
   updatePost(id: ID!, data: PostUpdateInput!): Post
+  deletePost(id: ID!): DeleteResponse
+  singleUpload(file: Upload!): File!
   #    deleteLink(id:ID!): DeleteResponse
   #    upvote(linkId: ID!): Vote
   #    downvote(linkId: ID!): DeleteResponse
@@ -27,7 +33,13 @@ type Mutation {
 #    newVote: Vote
 #}
 
-scalar DateTime
+type File {
+  id: ID!
+  path: String!
+  filename: String!
+  mimetype: String!
+  encoding: String!
+}
 
 input PageInput {
   skip: Int
@@ -100,6 +112,7 @@ input PostCreateInput {
 input PostUpdateInput {
   title: String
   description: String
+  preview: String
   content: PostContentInput
   state: PostState
   publishedDate: DateTime
@@ -111,6 +124,7 @@ type Post {
   title: String
   slug: String!
   description: String
+  preview: String
   content: PostContent!
   state: PostState!
   publishedDate: DateTime
@@ -121,6 +135,7 @@ type Post {
   votes: [Vote!]!
   totalVotes: Int!
   createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type PostContent {
@@ -163,6 +178,10 @@ enum PostOrderByInput {
   title_DESC
   createdAt_ASC
   createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  publishedDate_ASC
+  publishedDate_DESC
 }
 
 type Vote {
@@ -184,6 +203,11 @@ enum ResponseStatus {
 }
 
 interface Response {
+  message: String
+  status: ResponseStatus!
+}
+
+type DeleteResponse implements Response {
   message: String
   status: ResponseStatus!
 }

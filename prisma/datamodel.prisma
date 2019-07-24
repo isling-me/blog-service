@@ -42,6 +42,7 @@ type Post {
   title: String
   slug: String!
   description: String
+  preview: String
   readingTime: Int! @default(value: 15)
   content: PostContent! @relation(link: INLINE, onDelete: "CASCADE")
   state: PostState! @default(value: DRAFT)

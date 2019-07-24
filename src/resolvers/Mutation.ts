@@ -1,6 +1,7 @@
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import { AuthenticationError, ForbiddenError } from 'apollo-server-errors';
+import { singleUpload } from './fileUploadMutation';
 
 import {
   APP_SECRET,
@@ -144,7 +145,11 @@ async function updatePost(_parent, args, context) {
     throw new AuthenticationError('unauthorized');
   }
 
-  const { title, description, content, state, topic } = args.data;
+  const { title, description, content, state, topic, preview } = args.data;
+  logger.debug(
+    `[updatePost] Input: title: ${title} | description: ${description} | state: ${state} | topic: ${topic} | preview: ${preview}`
+  );
+
   let { publishedDate } = args.data;
 
   const topicConnect: ConnectInterface | {} = topic
@@ -170,7 +175,8 @@ async function updatePost(_parent, args, context) {
     state,
     content: {},
     publishedDate,
-    topic: topicConnect
+    topic: topicConnect,
+    preview
   };
 
   if (content) {
@@ -185,6 +191,36 @@ async function updatePost(_parent, args, context) {
     where: { id: postId },
     data
   });
+}
+
+async function deletePost(parent, args, context) {
+  if (!context.user.auth) {
+    logger.debug('[deletePost] require login');
+    throw new AuthenticationError('unauthorized');
+  }
+
+  const { id } = args;
+  const userId = context.user.id;
+  logger.info(`[deletePost] Delete post ${id}`);
+
+  const post = await context.prisma.post({ id });
+
+  if (!post) {
+    throw new ForbiddenError('resource_not_found');
+  }
+
+  const author = await context.prisma.post({ id }).author();
+
+  if (!author || author.id !== userId) {
+    throw new AuthenticationError('unauthorized');
+  }
+
+  await context.prisma.deletePost({ id });
+
+  return {
+    status: 'SUCCESS',
+    message: 'deleted successfully'
+  };
 }
 
 // const deleteLink = async (parent, args, context) => {
@@ -267,7 +303,9 @@ export default {
   signup,
   login,
   createPost,
-  updatePost
+  updatePost,
+  deletePost,
+  singleUpload
   // deleteLink,
   // upvote,
   // downvote,

@@ -1,5 +1,5 @@
 # The http endpoint for your Prisma API
-endpoint: https://us1.prisma.sh/long-nguyen-09e93d/isling/dev
+endpoint: http://localhost:4466
 
 # Points to the file that contains your datamodel
 datamodel: datamodel.prisma
