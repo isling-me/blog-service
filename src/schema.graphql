@@ -72,7 +72,7 @@ type Profile {
 type Me {
   id: ID!
   email: String!
-  username: String!
+  username: String
   role: Role!
   profile: MyProfile!
   posts(
