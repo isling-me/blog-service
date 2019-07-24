@@ -23,7 +23,6 @@ type Mutation {
   updatePost(id: ID!, data: PostUpdateInput!): Post
   deletePost(id: ID!): DeleteResponse
   singleUpload(file: Upload!): File!
-  #    deleteLink(id:ID!): DeleteResponse
   #    upvote(linkId: ID!): Vote
   #    downvote(linkId: ID!): DeleteResponse
 }
