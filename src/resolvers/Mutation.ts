@@ -146,31 +146,37 @@ async function updatePost(_parent, args, context) {
   }
 
   const { title, description, content, state, topic, preview } = args.data;
-  logger.debug(
-    `[updatePost] Input: title: ${title} | description: ${description} | state: ${state} | topic: ${topic} | preview: ${preview}`
-  );
-
   let { publishedDate } = args.data;
+  logger.debug(
+    `[updatePost] Input: title: ${title} | description: ${description} | state: ${state} | topic: ${topic} | preview: ${preview} | publishedDate: ${publishedDate}`
+  );
 
   const topicConnect: ConnectInterface | {} = topic
     ? { connect: { id: topic } }
     : {};
 
-  if (state === 'PUBLISHED') {
-    if (publishedDate) {
-      if (new Date(publishedDate).getTime() < Date.now()) {
+  if (typeof state === 'string') {
+    if (state === 'PUBLISHED') {
+      logger.debug(
+        `[updatePost] New published date; ${publishedDate}. Current published date: ${
+          post.publishedDate
+        }`
+      );
+      if (typeof publishedDate !== 'undefined') {
+        if (new Date(publishedDate).getTime() < Date.now()) {
+          publishedDate = new Date().toISOString();
+        }
+      } else if (!post.publishedDate) {
         publishedDate = new Date().toISOString();
       }
-    } else if (!post.publishedDate) {
-      publishedDate = new Date().toISOString();
+    } else {
+      publishedDate = null;
     }
-  } else if (publishedDate) {
-    publishedDate = undefined;
   }
 
   const data = {
     title: trimAllowUndefined(title),
-    slug: slugifyLower(title) || 'untitled',
+    slug: slugifyLower(title),
     description: trimAllowUndefined(description),
     state,
     content: {},

@@ -1,6 +1,4 @@
-import { createWriteStream, existsSync } from 'fs';
 import { Storage } from '@google-cloud/storage';
-import { join } from 'path';
 import { Logger } from '../utils';
 import uuid = require('uuid');
 
@@ -18,6 +16,7 @@ const storeUpload = async ({ stream, filename }): Promise<any> => {
   const file = islingBucket.file(path);
 
   return new Promise((resolve, reject) => {
+    logger.debug('Start uploading file to Bucket');
     stream
       .pipe(file.createWriteStream())
       .on('finish', () => {

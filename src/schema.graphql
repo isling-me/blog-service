@@ -127,7 +127,7 @@ type Post {
   content: PostContent!
   state: PostState!
   publishedDate: DateTime
-  readingTime: DateTime!
+  readingTime: Int!
   author: User
   topic: Topic
   comments: [Comment!]!
