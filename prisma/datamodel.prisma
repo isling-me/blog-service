@@ -1,7 +1,7 @@
 type User {
   id: ID! @id
   email: String! @unique
-  username: String @unique
+  username: String! @unique
   password: String!
   role: Role! @default(value: USER)
   profile: Profile! @relation(link: INLINE, onDelete: "CASCADE")
@@ -20,6 +20,7 @@ type Profile {
   user: User!
   name: String!
   avatar: String
+  intro: String
 }
 
 type Topic {

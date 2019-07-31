@@ -385,7 +385,9 @@ export type ProfileOrderByInput =
   | "name_ASC"
   | "name_DESC"
   | "avatar_ASC"
-  | "avatar_DESC";
+  | "avatar_DESC"
+  | "intro_ASC"
+  | "intro_DESC";
 
 export type TopicOrderByInput =
   | "id_ASC"
@@ -859,7 +861,7 @@ export interface UserUpdateOneRequiredWithoutPostsInput {
 export interface UserCreateInput {
   id?: Maybe<ID_Input>;
   email: String;
-  username?: Maybe<String>;
+  username: String;
   password: String;
   role?: Maybe<Role>;
   profile: ProfileCreateOneWithoutUserInput;
@@ -908,6 +910,7 @@ export interface PostUpdateWithoutTopicDataInput {
 export interface ProfileUpdateWithoutUserDataInput {
   name?: Maybe<String>;
   avatar?: Maybe<String>;
+  intro?: Maybe<String>;
 }
 
 export interface PostUpdateManyWithoutTopicInput {
@@ -969,6 +972,7 @@ export interface PostContentUpdateManyMutationInput {
 export interface ProfileUpdateManyMutationInput {
   name?: Maybe<String>;
   avatar?: Maybe<String>;
+  intro?: Maybe<String>;
 }
 
 export interface VoteUpdateWithoutUserDataInput {
@@ -1120,6 +1124,20 @@ export interface ProfileWhereInput {
   avatar_not_starts_with?: Maybe<String>;
   avatar_ends_with?: Maybe<String>;
   avatar_not_ends_with?: Maybe<String>;
+  intro?: Maybe<String>;
+  intro_not?: Maybe<String>;
+  intro_in?: Maybe<String[] | String>;
+  intro_not_in?: Maybe<String[] | String>;
+  intro_lt?: Maybe<String>;
+  intro_lte?: Maybe<String>;
+  intro_gt?: Maybe<String>;
+  intro_gte?: Maybe<String>;
+  intro_contains?: Maybe<String>;
+  intro_not_contains?: Maybe<String>;
+  intro_starts_with?: Maybe<String>;
+  intro_not_starts_with?: Maybe<String>;
+  intro_ends_with?: Maybe<String>;
+  intro_not_ends_with?: Maybe<String>;
   AND?: Maybe<ProfileWhereInput[] | ProfileWhereInput>;
   OR?: Maybe<ProfileWhereInput[] | ProfileWhereInput>;
   NOT?: Maybe<ProfileWhereInput[] | ProfileWhereInput>;
@@ -1492,7 +1510,7 @@ export interface CommentUpdateManyWithWhereNestedInput {
 export interface UserCreateWithoutProfileInput {
   id?: Maybe<ID_Input>;
   email: String;
-  username?: Maybe<String>;
+  username: String;
   password: String;
   role?: Maybe<Role>;
   posts?: Maybe<PostCreateManyWithoutAuthorInput>;
@@ -1531,6 +1549,7 @@ export interface ProfileCreateWithoutUserInput {
   id?: Maybe<ID_Input>;
   name: String;
   avatar?: Maybe<String>;
+  intro?: Maybe<String>;
 }
 
 export interface VoteScalarWhereInput {
@@ -1715,7 +1734,7 @@ export interface PostUpdateManyWithWhereNestedInput {
 export interface UserCreateWithoutVotesInput {
   id?: Maybe<ID_Input>;
   email: String;
-  username?: Maybe<String>;
+  username: String;
   password: String;
   role?: Maybe<Role>;
   profile: ProfileCreateOneWithoutUserInput;
@@ -1784,6 +1803,7 @@ export interface ProfileUpdateInput {
   user?: Maybe<UserUpdateOneRequiredWithoutProfileInput>;
   name?: Maybe<String>;
   avatar?: Maybe<String>;
+  intro?: Maybe<String>;
 }
 
 export interface VoteUpsertWithWhereUniqueWithoutUserInput {
@@ -1825,7 +1845,7 @@ export interface PostUpsertWithoutCommentsInput {
 export interface UserCreateWithoutCommentsInput {
   id?: Maybe<ID_Input>;
   email: String;
-  username?: Maybe<String>;
+  username: String;
   password: String;
   role?: Maybe<Role>;
   profile: ProfileCreateOneWithoutUserInput;
@@ -1870,6 +1890,7 @@ export interface ProfileCreateInput {
   user: UserCreateOneWithoutProfileInput;
   name: String;
   avatar?: Maybe<String>;
+  intro?: Maybe<String>;
 }
 
 export interface PostCreateInput {
@@ -1938,7 +1959,7 @@ export interface VoteCreateWithoutPostInput {
 export interface UserCreateWithoutPostsInput {
   id?: Maybe<ID_Input>;
   email: String;
-  username?: Maybe<String>;
+  username: String;
   password: String;
   role?: Maybe<Role>;
   profile: ProfileCreateOneWithoutUserInput;
@@ -1998,7 +2019,7 @@ export interface AggregatePostSubscription
 export interface User {
   id: ID_Output;
   email: String;
-  username?: String;
+  username: String;
   password: String;
   role: Role;
 }
@@ -2233,6 +2254,7 @@ export interface Profile {
   id: ID_Output;
   name: String;
   avatar?: String;
+  intro?: String;
 }
 
 export interface ProfilePromise extends Promise<Profile>, Fragmentable {
@@ -2240,6 +2262,7 @@ export interface ProfilePromise extends Promise<Profile>, Fragmentable {
   user: <T = UserPromise>() => T;
   name: () => Promise<String>;
   avatar: () => Promise<String>;
+  intro: () => Promise<String>;
 }
 
 export interface ProfileSubscription
@@ -2249,6 +2272,7 @@ export interface ProfileSubscription
   user: <T = UserSubscription>() => T;
   name: () => Promise<AsyncIterator<String>>;
   avatar: () => Promise<AsyncIterator<String>>;
+  intro: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ProfileNullablePromise
@@ -2258,6 +2282,7 @@ export interface ProfileNullablePromise
   user: <T = UserPromise>() => T;
   name: () => Promise<String>;
   avatar: () => Promise<String>;
+  intro: () => Promise<String>;
 }
 
 export interface PostConnection {
@@ -2769,7 +2794,7 @@ export interface UserSubscriptionPayloadSubscription
 export interface UserPreviousValues {
   id: ID_Output;
   email: String;
-  username?: String;
+  username: String;
   password: String;
   role: Role;
 }
@@ -3039,6 +3064,7 @@ export interface ProfilePreviousValues {
   id: ID_Output;
   name: String;
   avatar?: String;
+  intro?: String;
 }
 
 export interface ProfilePreviousValuesPromise
@@ -3047,6 +3073,7 @@ export interface ProfilePreviousValuesPromise
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   avatar: () => Promise<String>;
+  intro: () => Promise<String>;
 }
 
 export interface ProfilePreviousValuesSubscription
@@ -3055,6 +3082,7 @@ export interface ProfilePreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   avatar: () => Promise<AsyncIterator<String>>;
+  intro: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserConnection {

@@ -3,7 +3,7 @@ scalar Upload
 
 type Query {
   me: Me
-  user(id: ID!): User
+  user(username: String!): User
   posts(page: PageInput!, orderBy: PostOrderByInput): PostsResult!
   post(id: ID!): Post
   ownPost(id: ID!): Post
@@ -12,17 +12,28 @@ type Query {
     orderBy: TopicOrderByInput
     page: PageInput
   ): TopicsResult!
-  topic(id: ID!): Topic
+  topic(id: ID, slug: String): Topic
   popularPosts(first: Int = 5): [Post!]!
 }
 
 type Mutation {
-  signup(email: String!, password: String!, name: String!): AuthPayload
+  signup(
+    email: String!
+    password: String!
+    name: String!
+    username: String!
+  ): AuthPayload
   login(email: String!, password: String!): AuthPayload
   createPost(data: PostCreateInput!): Post
   updatePost(id: ID!, data: PostUpdateInput!): Post
   deletePost(id: ID!): DeleteResponse
   singleUpload(file: Upload!): File!
+  updateProfile(
+    name: String
+    username: String
+    intro: String
+    avatar: String
+  ): Me
   #    upvote(linkId: ID!): Vote
   #    downvote(linkId: ID!): DeleteResponse
 }
@@ -67,12 +78,13 @@ type Profile {
   id: ID!
   name: String!
   avatar: String
+  intro: String
 }
 
 type Me {
   id: ID!
   email: String!
-  username: String
+  username: String!
   role: Role!
   profile: MyProfile!
   posts(
@@ -88,6 +100,7 @@ type MyProfile {
   id: ID!
   name: String!
   avatar: String
+  intro: String
 }
 
 enum Role {
@@ -153,7 +166,10 @@ type Topic {
   id: ID!
   name: String!
   slug: String!
-  posts: [Post!]!
+  posts(
+    page: PageInput!
+    orderBy: PostOrderByInput = publishedDate_DESC
+  ): PostsResult!
 }
 
 type TopicsResult implements PageResult {

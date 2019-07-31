@@ -1,23 +1,25 @@
 import { AuthenticationError, ForbiddenError } from 'apollo-server-errors';
+import { Logger } from '../utils';
+
+const logger = new Logger('Query');
 
 function me(parent, args, context) {
   if (!context.user.auth) {
+    logger.debug('[me] Unauthorized');
     throw new AuthenticationError('unauthorized');
   }
 
   const userId = context.user.id;
 
+  logger.debug(`[me] User id ${userId}`);
+
   return context.prisma.user({ id: userId });
 }
 
 function user(parent, args, context) {
-  if (!context.user.auth) {
-    throw new AuthenticationError('unauthorized');
-  }
+  const { username } = args;
 
-  const userId = args.id;
-
-  return context.prisma.user({ id: userId });
+  return context.prisma.user({ username });
 }
 
 //   const where = args.filter ? {
@@ -103,7 +105,14 @@ async function topics(_parent, args, context) {
 }
 
 async function topic(parent, args, context) {
-  return context.prisma.topic({ id: args.id });
+  const { slug, id } = args;
+
+  if (!slug && !id) {
+    logger.debug('[topic] Missing slug and id when get topic information');
+    throw new ForbiddenError('validation_failed');
+  }
+
+  return context.prisma.topic({ id, slug });
 }
 
 async function popularPosts(parent, args, context) {

@@ -24,11 +24,23 @@ const signup = async (_parent, args, context) => {
     throw new ForbiddenError('email_has_been_taken');
   }
 
+  const { username } = args;
+
+  const usernameExist = await context.prisma.$exists.user({
+    username
+  });
+
+  if (usernameExist) {
+    logger.debug(`[signup] Username ${username} has been taken`);
+    throw new ForbiddenError('username_has_been_taken');
+  }
+
   const password = await bcrypt.hash(args.password, 10);
 
   const user = await context.prisma.createUser({
     email: args.email,
     password,
+    username,
     profile: {
       create: {
         name: args.name
@@ -79,6 +91,44 @@ const login = async (_parent, args, context) => {
     token,
     user
   };
+};
+
+const updateProfile = async (parent, args, context) => {
+  if (!context.user.auth) {
+    logger.debug('[updateProfile] require login');
+    throw new AuthenticationError('unauthorized');
+  }
+
+  const { id } = context.user;
+  const { username, name, intro, avatar } = args;
+
+  logger.debug(
+    `[updateProfile] Update profile username ${username}, name ${name}, avatar ${avatar}, intro ${intro}`
+  );
+
+  if (typeof username === 'string') {
+    const usernameExist = await context.prisma.$exists.user({
+      username
+    });
+    if (usernameExist) {
+      logger.debug('[updateProfile] username has been taken');
+      throw new ForbiddenError('user_name_has_been_taken');
+    }
+  }
+
+  return context.prisma.updateUser({
+    where: { id },
+    data: {
+      username,
+      profile: {
+        update: {
+          name,
+          intro,
+          avatar
+        }
+      }
+    }
+  });
 };
 
 interface ConnectInterface {
@@ -311,8 +361,8 @@ export default {
   createPost,
   updatePost,
   deletePost,
-  singleUpload
-  // deleteLink,
+  singleUpload,
+  updateProfile
   // upvote,
   // downvote,
 };

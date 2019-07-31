@@ -1112,6 +1112,7 @@ type Profile {
   user: User!
   name: String!
   avatar: String
+  intro: String
 }
 
 type ProfileConnection {
@@ -1125,6 +1126,7 @@ input ProfileCreateInput {
   user: UserCreateOneWithoutProfileInput!
   name: String!
   avatar: String
+  intro: String
 }
 
 input ProfileCreateOneWithoutUserInput {
@@ -1136,6 +1138,7 @@ input ProfileCreateWithoutUserInput {
   id: ID
   name: String!
   avatar: String
+  intro: String
 }
 
 type ProfileEdge {
@@ -1150,12 +1153,15 @@ enum ProfileOrderByInput {
   name_DESC
   avatar_ASC
   avatar_DESC
+  intro_ASC
+  intro_DESC
 }
 
 type ProfilePreviousValues {
   id: ID!
   name: String!
   avatar: String
+  intro: String
 }
 
 type ProfileSubscriptionPayload {
@@ -1180,11 +1186,13 @@ input ProfileUpdateInput {
   user: UserUpdateOneRequiredWithoutProfileInput
   name: String
   avatar: String
+  intro: String
 }
 
 input ProfileUpdateManyMutationInput {
   name: String
   avatar: String
+  intro: String
 }
 
 input ProfileUpdateOneRequiredWithoutUserInput {
@@ -1197,6 +1205,7 @@ input ProfileUpdateOneRequiredWithoutUserInput {
 input ProfileUpdateWithoutUserDataInput {
   name: String
   avatar: String
+  intro: String
 }
 
 input ProfileUpsertWithoutUserInput {
@@ -1248,6 +1257,20 @@ input ProfileWhereInput {
   avatar_not_starts_with: String
   avatar_ends_with: String
   avatar_not_ends_with: String
+  intro: String
+  intro_not: String
+  intro_in: [String!]
+  intro_not_in: [String!]
+  intro_lt: String
+  intro_lte: String
+  intro_gt: String
+  intro_gte: String
+  intro_contains: String
+  intro_not_contains: String
+  intro_starts_with: String
+  intro_not_starts_with: String
+  intro_ends_with: String
+  intro_not_ends_with: String
   AND: [ProfileWhereInput!]
   OR: [ProfileWhereInput!]
   NOT: [ProfileWhereInput!]
@@ -1455,7 +1478,7 @@ input TopicWhereUniqueInput {
 type User {
   id: ID!
   email: String!
-  username: String
+  username: String!
   password: String!
   role: Role!
   profile: Profile!
@@ -1473,7 +1496,7 @@ type UserConnection {
 input UserCreateInput {
   id: ID
   email: String!
-  username: String
+  username: String!
   password: String!
   role: Role
   profile: ProfileCreateOneWithoutUserInput!
@@ -1505,7 +1528,7 @@ input UserCreateOneWithoutVotesInput {
 input UserCreateWithoutCommentsInput {
   id: ID
   email: String!
-  username: String
+  username: String!
   password: String!
   role: Role
   profile: ProfileCreateOneWithoutUserInput!
@@ -1516,7 +1539,7 @@ input UserCreateWithoutCommentsInput {
 input UserCreateWithoutPostsInput {
   id: ID
   email: String!
-  username: String
+  username: String!
   password: String!
   role: Role
   profile: ProfileCreateOneWithoutUserInput!
@@ -1527,7 +1550,7 @@ input UserCreateWithoutPostsInput {
 input UserCreateWithoutProfileInput {
   id: ID
   email: String!
-  username: String
+  username: String!
   password: String!
   role: Role
   posts: PostCreateManyWithoutAuthorInput
@@ -1538,7 +1561,7 @@ input UserCreateWithoutProfileInput {
 input UserCreateWithoutVotesInput {
   id: ID
   email: String!
-  username: String
+  username: String!
   password: String!
   role: Role
   profile: ProfileCreateOneWithoutUserInput!
@@ -1567,7 +1590,7 @@ enum UserOrderByInput {
 type UserPreviousValues {
   id: ID!
   email: String!
-  username: String
+  username: String!
   password: String!
   role: Role!
 }
