@@ -664,7 +664,7 @@ export interface VoteWhereInput {
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
   post?: Maybe<PostWhereInput>;
-  User?: Maybe<UserWhereInput>;
+  user?: Maybe<UserWhereInput>;
   AND?: Maybe<VoteWhereInput[] | VoteWhereInput>;
   OR?: Maybe<VoteWhereInput[] | VoteWhereInput>;
   NOT?: Maybe<VoteWhereInput[] | VoteWhereInput>;
@@ -839,7 +839,7 @@ export interface PostContentUpdateWithoutPostDataInput {
 export interface VoteCreateInput {
   id?: Maybe<ID_Input>;
   post: PostCreateOneWithoutVotesInput;
-  User: UserCreateOneWithoutVotesInput;
+  user: UserCreateOneWithoutVotesInput;
 }
 
 export interface PostContentUpsertWithoutPostInput {
@@ -1330,7 +1330,7 @@ export interface UserCreateOneWithoutVotesInput {
 }
 
 export interface VoteUpdateWithoutPostDataInput {
-  User?: Maybe<UserUpdateOneRequiredWithoutVotesInput>;
+  user?: Maybe<UserUpdateOneRequiredWithoutVotesInput>;
 }
 
 export interface VoteSubscriptionWhereInput {
@@ -1380,7 +1380,7 @@ export interface UserUpdateWithoutVotesDataInput {
 
 export interface VoteUpdateInput {
   post?: Maybe<PostUpdateOneRequiredWithoutVotesInput>;
-  User?: Maybe<UserUpdateOneRequiredWithoutVotesInput>;
+  user?: Maybe<UserUpdateOneRequiredWithoutVotesInput>;
 }
 
 export interface CommentUpdateManyWithoutAuthorInput {
@@ -1953,7 +1953,7 @@ export interface PostUpdateInput {
 
 export interface VoteCreateWithoutPostInput {
   id?: Maybe<ID_Input>;
-  User: UserCreateOneWithoutVotesInput;
+  user: UserCreateOneWithoutVotesInput;
 }
 
 export interface UserCreateWithoutPostsInput {
@@ -2160,7 +2160,7 @@ export interface Vote {
 export interface VotePromise extends Promise<Vote>, Fragmentable {
   id: () => Promise<ID_Output>;
   post: <T = PostPromise>() => T;
-  User: <T = UserPromise>() => T;
+  user: <T = UserPromise>() => T;
 }
 
 export interface VoteSubscription
@@ -2168,7 +2168,7 @@ export interface VoteSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   post: <T = PostSubscription>() => T;
-  User: <T = UserSubscription>() => T;
+  user: <T = UserSubscription>() => T;
 }
 
 export interface VoteNullablePromise
@@ -2176,7 +2176,7 @@ export interface VoteNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   post: <T = PostPromise>() => T;
-  User: <T = UserPromise>() => T;
+  user: <T = UserPromise>() => T;
 }
 
 export interface BatchPayload {

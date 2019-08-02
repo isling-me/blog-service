@@ -1804,7 +1804,7 @@ input UserWhereUniqueInput {
 type Vote {
   id: ID!
   post: Post!
-  User: User!
+  user: User!
 }
 
 type VoteConnection {
@@ -1816,7 +1816,7 @@ type VoteConnection {
 input VoteCreateInput {
   id: ID
   post: PostCreateOneWithoutVotesInput!
-  User: UserCreateOneWithoutVotesInput!
+  user: UserCreateOneWithoutVotesInput!
 }
 
 input VoteCreateManyWithoutPostInput {
@@ -1831,7 +1831,7 @@ input VoteCreateManyWithoutUserInput {
 
 input VoteCreateWithoutPostInput {
   id: ID
-  User: UserCreateOneWithoutVotesInput!
+  user: UserCreateOneWithoutVotesInput!
 }
 
 input VoteCreateWithoutUserInput {
@@ -1893,7 +1893,7 @@ input VoteSubscriptionWhereInput {
 
 input VoteUpdateInput {
   post: PostUpdateOneRequiredWithoutVotesInput
-  User: UserUpdateOneRequiredWithoutVotesInput
+  user: UserUpdateOneRequiredWithoutVotesInput
 }
 
 input VoteUpdateManyWithoutPostInput {
@@ -1919,7 +1919,7 @@ input VoteUpdateManyWithoutUserInput {
 }
 
 input VoteUpdateWithoutPostDataInput {
-  User: UserUpdateOneRequiredWithoutVotesInput
+  user: UserUpdateOneRequiredWithoutVotesInput
 }
 
 input VoteUpdateWithoutUserDataInput {
@@ -1964,7 +1964,7 @@ input VoteWhereInput {
   id_ends_with: ID
   id_not_ends_with: ID
   post: PostWhereInput
-  User: UserWhereInput
+  user: UserWhereInput
   AND: [VoteWhereInput!]
   OR: [VoteWhereInput!]
   NOT: [VoteWhereInput!]

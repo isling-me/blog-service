@@ -63,7 +63,7 @@ type PostContent {
 type Vote {
   id: ID! @id
   post: Post! @relation(name: "VotedUsers")
-  User: User! @relation(name: "VotedPosts")
+  user: User! @relation(name: "VotedPosts")
 }
 
 type Comment {
