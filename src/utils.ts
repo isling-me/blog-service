@@ -108,3 +108,10 @@ export function slugifyLower(string: string | undefined): string | undefined {
   }
   return undefined;
 }
+
+export function getHTTPuri(uri: string): string {
+  if (uri.toLowerCase().includes('tcp')) {
+    return `http${uri.slice(3)}`;
+  }
+  return uri;
+}

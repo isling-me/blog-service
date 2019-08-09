@@ -1,5 +1,4 @@
 /node_modules
 /.idea
 .env
-prisma/prisma.yml
 isling-a95d6006e32c.json
