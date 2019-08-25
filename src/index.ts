@@ -1,7 +1,9 @@
 import { GraphQLServer } from 'graphql-yoga';
+import cors = require('cors');
 import { Prisma } from './generated/prisma-client';
 import resolvers from './resolvers';
 import { getCurrentUser, Logger, getHTTPuri } from './utils';
+import fileUploadAPI from './modules/FileUpload/fileUploadAPI';
 
 const logger = new Logger('index');
 
@@ -19,6 +21,9 @@ const start = () => {
       };
     }
   });
+
+  server.express.use(cors());
+  fileUploadAPI(server.express);
 
   server.start(
     {
